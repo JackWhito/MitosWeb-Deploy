@@ -1,4 +1,4 @@
-from streamlit_webrtc import webrtc_streamer
+from streamlit_webrtc import webrtc_streamer, WebRtcMode
 
 import threading
 
@@ -21,9 +21,11 @@ def video_frame_callback(frame):
 col1, col2 = st.columns(2)
 
 with col1:
-    ctx = webrtc_streamer(key="example", video_frame_callback=video_frame_callback, 
-                      media_stream_constraints={"video": True, "audio": False},
-                      rtc_configuration={"iceServers": [{"urls": ["stun:stun.relay.metered.ca:80"]},
+    ctx = webrtc_streamer(key="example", video_frame_callback=video_frame_callback,
+                        mode=WebRtcMode.SENDRECV,
+                        async_processing=True,
+                        media_stream_constraints={"video": True, "audio": False},
+                        rtc_configuration={"iceServers": [{"urls": ["stun:stun.relay.metered.ca:80"]},
                                                         {"urls":["turn:asia.relay.metered.ca:80"],
                                                         "username": "1d26b67f6210bea330a0b203",
                                                         "credential": "TgLT2SkILgzDDrOu"},
